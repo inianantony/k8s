@@ -71,3 +71,15 @@ Used to determine if the pod is ready to receive request
 
 Example
 
+``` yaml
+spec:
+    containers:
+        - name: my-nginx
+          image: nginx:alpine
+          readinessProbe:
+            httpGet: # a http get type of check on /index.html and on port 80 and expects success or failure or Unknown as result
+                path: /index.html
+                port: 80
+            initialDelaySeconds: 2 # wait for 2 seconds before starting to check
+            periodSeconds: 5 # check every 5 seconds until its up and running
+```
