@@ -17,7 +17,7 @@ kubectl describe pod my-nginx
 However at this point we are not able to reach our pod from external world, so we need to expose it first by
 
 ``` bash
-kubectl port-forkubeward my-nginx 8080:80
+kubectl port-forward my-nginx 8080:80
 ```
 
 We can remove this pod by
@@ -30,7 +30,7 @@ kubectl delete pod my-nginx
 
 the file is nginx.pod.yml
 
-a complete details of the pod can be retreived by 
+a complete details of the pod can be retrieved by
 
 ``` bash
 kubectl get pod my-nginx -o yaml
@@ -99,7 +99,7 @@ Copy the nginx.pod.yml file and name as nginx.pod.probes.yml and add the readine
 kubectl apply -f nginx.pod.probes.yml
 ```
 
-Now `sh` into the shell of the pod and messup the index.html file
+Now `sh` into the shell of the pod and delete the index.html file
 
 ```bash
 kubectl exec my-nginx -it sh
@@ -111,4 +111,4 @@ ls
 rm index.html
 ```
 
-running above cimmands will terminate the pod and this the terminal will exit as well. If you describe the pod and look for message section, you can see the liveness probe fail message.
+running above commands will terminate the pod and this the terminal will exit as well. If you describe the pod and look for message section, you can see the liveness probe fail message.
