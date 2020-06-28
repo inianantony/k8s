@@ -42,6 +42,12 @@ To get into the pod in shell
 kubectl exec my-nginx -it sh
 ```
 
+to delete the pod we can use
+
+``` bash
+kubectl delete pod -f nginx.pod.yml
+```
+
 ## Probes
 
 ### Liveness Probe
@@ -60,9 +66,9 @@ spec:
                 path: /index.html
                 port: 80
             initialDelaySeconds: 15 # wait for 15 seconds before starting to check
-            timeoutSeconds: 2 # timeout of checking is 2 seconds
-            periodSeconds: 5 # check every 5 seconds
-            failureThreshold: 1 # allow 1 failure before taking down the pod
+            timeoutSeconds: 2 # timeout of checking is 2 seconds, default 1
+            periodSeconds: 5 # check every 5 seconds, default 10
+            failureThreshold: 1 # allow 1 failure before taking down the pod, default 3
 ```
 
 ### Readiness Probe
@@ -80,6 +86,29 @@ spec:
             httpGet: # a http get type of check on /index.html and on port 80 and expects success or failure or Unknown as result
                 path: /index.html
                 port: 80
-            initialDelaySeconds: 2 # wait for 2 seconds before starting to check
+            initialDelaySeconds: 3 # wait for 3 seconds before starting to check
             periodSeconds: 5 # check every 5 seconds until its up and running
+            failureThreshold: 1
 ```
+
+### Try out the probes
+
+Copy the nginx.pod.yml file and name as nginx.pod.probes.yml and add the readiness and liveness probes
+
+``` bash
+kubectl apply -f nginx.pod.probes.yml
+```
+
+Now `sh` into the shell of the pod and messup the index.html file
+
+```bash
+kubectl exec my-nginx -it sh
+
+cd /usr/share/nginx/html
+
+ls
+
+rm index.html
+```
+
+running above cimmands will terminate the pod and this the terminal will exit as well. If you describe the pod and look for message section, you can see the liveness probe fail message.
