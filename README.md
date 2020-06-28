@@ -29,3 +29,9 @@ kubectl delete pod my-nginx
 ## use yml file to describe a pod
 
 the file is nginx.pod.yml
+
+a complete details of the pod can be retreived by 
+
+``` bash
+kubectl get pod my-nginx -o yaml
+```
