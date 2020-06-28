@@ -26,3 +26,6 @@ We can remove this pod by
 kubectl delete pod my-nginx
 ```
 
+## use yml file to describe a pod
+
+the file is nginx.pod.yml
