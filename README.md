@@ -35,3 +35,39 @@ a complete details of the pod can be retreived by
 ``` bash
 kubectl get pod my-nginx -o yaml
 ```
+
+To get into the pod in shell
+
+``` bash
+kubectl exec my-nginx -it sh
+```
+
+## Probes
+
+### Liveness Probe
+
+Used to determine if the pod is healthy and running as expected
+
+Example
+
+``` yaml
+spec:
+    containers:
+        - name: my-nginx
+          image: nginx:alpine
+          livenessProbe:
+            httpGet: # a http get type of check on /index.html and on port 80 and expects success or failure or Unknown as result
+                path: /index.html
+                port: 80
+            initialDelaySeconds: 15 # wait for 15 seconds before starting to check
+            timeoutSeconds: 2 # timeout of checking is 2 seconds
+            periodSeconds: 5 # check every 5 seconds
+            failureThreshold: 1 # allow 1 failure before taking down the pod
+```
+
+### Readiness Probe
+
+Used to determine if the pod is ready to receive request
+
+Example
+
